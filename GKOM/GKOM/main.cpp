@@ -13,8 +13,6 @@
 #include "GLUT.H"
 #include "Camera.h"
 #include "Cage.h"
-#include <functional>
-#include <iostream>
 
 
 void display(void)
@@ -51,39 +49,21 @@ void reshape(int width, int height)
 
 void keyboard(unsigned char key, int x, int y)
 {
-	static void(Camera::*setVal)(GLfloat) = nullptr;
-	static GLfloat(Camera::*getVal)(void) = nullptr;
-
-	switch (key)
-	{
-	case 'x':
-		std::cout << "Button pressed: x.\n";
-		setVal = &Camera::setX;
-		getVal = &Camera::getX;
-		break;
-	case 'y':
-		std::cout << "Button pressed: y.\n";
-		setVal = &Camera::setY;
-		getVal = &Camera::getY;
-		break;
-	case 'z':
-		std::cout << "Button pressed: z.\n";
-		setVal = &Camera::setZ;
-		getVal = &Camera::getZ;
-		break;
-	case '+':
-		std::cout << "Button pressed: +.\n";
-		(Camera::getInstance().*setVal)((Camera::getInstance().*getVal)() + 1);
-		break;
-	case '-':
-		std::cout << "Button pressed: -.\n";
-		(Camera::getInstance().*setVal)((Camera::getInstance().*getVal)() - 1);
-		break;
-	default:
-		break;
-	}
+	Camera::getInstance().keyboard(key, x, y);
 
 	reshape(glutGet(GLUT_WINDOW_WIDTH), glutGet(GLUT_WINDOW_HEIGHT));
+}
+
+
+void mouseButton(int button, int state, int x, int y)
+{
+	Camera::getInstance().mouseButton(button, state,  x, y);
+}
+
+
+void mouseMove(int x, int y)
+{
+	Camera::getInstance().mouseMove(x, y);
 }
 
 
@@ -100,6 +80,8 @@ void startProgram(int argc, char** argv)
 	glutDisplayFunc(display);
 	glutReshapeFunc(reshape);
 	glutIdleFunc(display);
+	glutMouseFunc(mouseButton);
+	glutMotionFunc(mouseMove);
 
 	glutKeyboardFunc(keyboard);
 

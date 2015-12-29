@@ -1,6 +1,9 @@
 #pragma once
 
 #include "GLUT.H"
+#include <iostream>
+
+#define INIT_Z_DISTANCE -20.0
 
 class Camera
 {
@@ -18,11 +21,24 @@ public:
 	GLfloat getX();
 	GLfloat getY();
 	GLfloat getZ();
+
+	void keyboard(unsigned char key, int x, int y);
+	void mouseButton(int button, int state, int x, int y);
+	void mouseMove(int x, int y);
 private:
 	Camera();
 
 	GLfloat x;
 	GLfloat y;
 	GLfloat z;
+
+	void(Camera::*setVal)(GLfloat);
+	GLfloat(Camera::*getVal)(void);
+
+	bool rotationActive;
+	int lastX;
+	int lastY;
+	float rotX;
+	float rotY;
 };
 

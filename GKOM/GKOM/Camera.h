@@ -1,8 +1,9 @@
 #pragma once
 
 #include "GLUT.H"
-#include <iostream>
 
+#define INIT_X_DISTANCE 0.0
+#define INIT_Y_DISTANCE 0.0
 #define INIT_Z_DISTANCE -20.0
 
 class Camera

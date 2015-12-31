@@ -7,7 +7,7 @@
 
 #define STEP 1.0
 #define FRONT_CUT_WALL 10.0
-#define BACK_CUT_WALL 200.0
+#define BACK_CUT_WALL 500.0
 #define VIEWING_ANGLE 60.0
 
 #include "GLUT.H"
@@ -82,8 +82,9 @@ void startProgram(int argc, char** argv)
 	glutIdleFunc(display);
 	glutMouseFunc(mouseButton);
 	glutMotionFunc(mouseMove);
-
 	glutKeyboardFunc(keyboard);
+
+	Cage::getInstance().loadTextures();
 
 	glutMainLoop();
 }

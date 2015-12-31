@@ -2,7 +2,8 @@
 
 
 
-Camera::Camera() : x(0.0), y(0.0), z(INIT_Z_DISTANCE), setVal(nullptr), getVal(nullptr), lastX(0), lastY(0), rotX(0.0), rotY(0.0), rotationActive(false)
+Camera::Camera() : x(INIT_X_DISTANCE), y(INIT_Y_DISTANCE), z(INIT_Z_DISTANCE), 
+setVal(nullptr), getVal(nullptr), lastX(0), lastY(0), rotX(0.0), rotY(0.0), rotationActive(false)
 {
 }
 
@@ -21,13 +22,10 @@ Camera& Camera::getInstance()
 
 void Camera::setView()
 {
-	glTranslatef(0.0, 0.0, INIT_Z_DISTANCE);
-
 	glTranslatef(-x, -y, -z);
 	glRotatef(rotX, 1, 0, 0);
 	glRotatef(rotY, 0, 1, 0);
 	glTranslatef(x, y, z);
-
 }
 
 
@@ -78,26 +76,21 @@ void Camera::keyboard(unsigned char key, int x, int y)
 	switch (key)
 	{
 	case 'x':
-		std::cout << "Button pressed: x.\n";
 		setVal = &Camera::setX;
 		getVal = &Camera::getX;
 		break;
 	case 'y':
-		std::cout << "Button pressed: y.\n";
 		setVal = &Camera::setY;
 		getVal = &Camera::getY;
 		break;
 	case 'z':
-		std::cout << "Button pressed: z.\n";
 		setVal = &Camera::setZ;
 		getVal = &Camera::getZ;
 		break;
 	case '+':
-		std::cout << "Button pressed: +.\n";
 		(Camera::getInstance().*setVal)((Camera::getInstance().*getVal)() + 1);
 		break;
 	case '-':
-		std::cout << "Button pressed: -.\n";
 		(Camera::getInstance().*setVal)((Camera::getInstance().*getVal)() - 1);
 		break;
 	default:

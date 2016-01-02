@@ -1,6 +1,0 @@
-#TargetFrameworkVersion=v4.0:PlatformToolSet=v120:EnableManagedIncrementalBuild=false:VCToolArchitecture=Native32Bit
-<<<<<<< HEAD
-Debug|Win32|D:\Github\Robotic-Arm\GKOM\GKOM\SimpleOpenGLImageLibrary\projects\VC9\|
-=======
-Debug|Win32|C:\Users\Tomasz\Documents\Visual Studio 2013\Projects\Robotic-Arm\GKOM\GKOM\SimpleOpenGLImageLibrary\projects\VC9\|
->>>>>>> 4b723715e9545ac3605dcae7350f2289cb075f35

@@ -14,6 +14,7 @@
 #include "Camera.h"
 #include "Cage.h"
 #include "RoboticArm.h"
+#include "Light.h"
 
 
 void display(void)
@@ -26,6 +27,7 @@ void display(void)
 	glLoadIdentity();
 
 	Camera::getInstance().setView();
+	Light::getInstance().display();
 	Cage::getInstance().display();
 	RoboticArm::getInstance().display();
 
@@ -51,6 +53,7 @@ void reshape(int width, int height)
 
 void keyboard(unsigned char key, int x, int y)
 {
+	Light::getInstance().keyboard(key, x, y);
 	Camera::getInstance().keyboard(key, x, y);
 	RoboticArm::getInstance().keyboard(key, x, y);
 
@@ -87,9 +90,11 @@ void startProgram(int argc, char** argv)
 	glutMotionFunc(mouseMove);
 	glutKeyboardFunc(keyboard);
 
+	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 	glDepthFunc(GL_LESS);
 	glEnable(GL_DEPTH_TEST);
 
+	Light::getInstance().init();
 	Cage::getInstance().loadTextures();
 	RoboticArm::getInstance().loadTextures();
 

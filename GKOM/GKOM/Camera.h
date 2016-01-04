@@ -1,6 +1,7 @@
 #pragma once
 
 #include "GLUT.H"
+#include <iostream>
 
 #define INIT_X_DISTANCE 0.0
 #define INIT_Y_DISTANCE 30.0

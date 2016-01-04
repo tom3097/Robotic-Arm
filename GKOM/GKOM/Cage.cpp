@@ -31,6 +31,7 @@ void Cage::drawBottomQuad()
 	glBindTexture(GL_TEXTURE_2D, textures[0]);
 
 	glBegin(GL_QUADS);
+		glNormal3f(0.0, 1.0, 0.0);
 		glTexCoord2f(0, 0);
 		glVertex3f(-length / 2, -height / 2, -width / 2);
 		glTexCoord2f(0, 1);
@@ -51,6 +52,7 @@ void Cage::drawTopQuad()
 	glBindTexture(GL_TEXTURE_2D, textures[1]);
 
 	glBegin(GL_QUADS);
+		glNormal3f(0.0, 1.0, 0.0);
 		glTexCoord2f(0, 0);
 		glVertex3f(-length / 2, height / 2, -width / 2);
 		glTexCoord2f(0, 1);
@@ -71,6 +73,7 @@ void Cage::drawLeftQuad()
 	glBindTexture(GL_TEXTURE_2D, textures[2]);
 
 	glBegin(GL_QUADS);
+		glNormal3f(0.0, 1.0, 0.0);
 		glTexCoord2f(0, 1);
 		glVertex3f(-length / 2, -height / 2, -width / 2);
 		glTexCoord2f(1, 1);
@@ -91,6 +94,7 @@ void Cage::drawRightQuad()
 	glBindTexture(GL_TEXTURE_2D, textures[3]);
 
 	glBegin(GL_QUADS);
+		glNormal3f(0.0, 1.0, 0.0);
 		glTexCoord2f(0, 1);
 		glVertex3f(length / 2, -height / 2, -width / 2);
 		glTexCoord2f(1, 1);
@@ -111,6 +115,7 @@ void Cage::drawBackQuad()
 	glBindTexture(GL_TEXTURE_2D, textures[4]);
 
 	glBegin(GL_QUADS);
+		glNormal3f(0.0, 1.0, 0.0);
 		glTexCoord2f(0, 0);
 		glVertex3f(length / 2, height / 2, -width / 2);
 		glTexCoord2f(0, 1);
@@ -131,6 +136,7 @@ void Cage::drawFrontQuad()
 	glBindTexture(GL_TEXTURE_2D, textures[5]);
 
 	glBegin(GL_QUADS);
+		glNormal3f(0.0, 1.0, 0.0);
 		glTexCoord2f(0, 0);
 		glVertex3f(length / 2, height / 2, width / 2);
 		glTexCoord2f(0, 1);

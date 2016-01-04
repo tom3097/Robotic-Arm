@@ -81,12 +81,14 @@
   <ItemGroup>
     <ClCompile Include="Cage.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Light.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="RoboticArm.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Cage.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="Light.h" />
     <ClInclude Include="RoboticArm.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

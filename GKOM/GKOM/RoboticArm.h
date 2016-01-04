@@ -6,7 +6,7 @@
 
 #define ROBOTIC_TEXTURES_NO 3
 
-#define SCALE 1.7
+#define SCALE 1.4
 #define CAGE_HEIGHT 80.0
 #define SUBDIVISIONS (16 * SCALE)
 
@@ -41,7 +41,6 @@
 #define FIRST_WRIST_REGULATOR_HEIGHT (ELBOW_REGULATOR_HEIGHT - (1.0 * SCALE))
 #define FIRST_WRIST_PIECE_RADIUS (0.3 * SCALE)
 #define FIRST_WRIST_PIECE_HEIGHT (1.5 * SCALE)
-
 #define SECOND_WRIST_ENGINE_RADIUS (1.0 * SCALE)
 #define SECOND_WRIST_REGULATOR_RADIUS (0.4 * SCALE)
 #define SECOND_WRIST_REGULATOR_HEIGHT (1.0 * SCALE)
@@ -49,8 +48,21 @@
 #define SECOND_WRIST_PIECE_HEIGHT ELBOW_REGULATOR_HEIGHT
 
 /* Tool part macros */
-#define TOOL_PIECE_RADIUS (0.2 * SCALE)
-#define TOOL_PIECE_HEIGHT (2.5 * SCALE)
+#define FIRST_TOOL_PIECE_RADIUS (0.3 * SCALE)
+#define FIRST_TOOL_PIECE_HEIGHT (2.5 * SCALE)
+#define SECOND_TOOL_PIECE_RADIUS (0.1 * SCALE)
+#define SECOND_TOOL_PIECE_HEIGHT (1.0 * SCALE)
+#define FIRST_SPHERE_TOOL_PIECE_RADIUS (0.2 * SCALE)
+#define TOOL_ENGINE_RADIUS (0.4 * SCALE)
+#define TOOL_ENGINE_HEIGHT (0.6 * SCALE)
+#define THIRD_TOOL_PIECE_RADIUS_MAX (0.3 * SCALE)
+#define THIRD_TOOL_PIECE_RADIUS_MIN (0.2 * SCALE)
+#define THIRD_TOOL_PIECE_HEIGHT (1.5 * SCALE)
+#define SECOND_SPHERE_TOOL_PIECE_RADIUS (0.3 * SCALE)
+#define FOURTH_TOOL_PIECE_RADIUS_MAX (0.25 * SCALE)
+#define FOURTH_TOOL_PIECE_RADIUS_MIN (0.1 * SCALE)
+#define FOURTH_TOOL_PIECE_HEIGHT (2.5 * SCALE)
+
 
 class RoboticArm
 {
@@ -62,6 +74,20 @@ public:
 	void loadTextures();
 	void display();
 	void keyboard(unsigned char key, int x, int y);
+
+	void setWaistAngle(GLfloat _waistAngle);
+	void setShoulderAngle(GLfloat _shoulderAngle);
+	void setElbowAngle(GLfloat _elbowAngle);
+	void setCylinderWristAngle(GLfloat _cylinderWristAngle);
+	void setSphereWristAngle(GLfloat _sphereWristAngle);
+	void setToolAngle(GLfloat _toolAngle);
+
+	GLfloat getWaistAngle();
+	GLfloat getShoulderAngle();
+	GLfloat getElbowAngle();
+	GLfloat getCylinderWristAngle();
+	GLfloat getSphereWristAngle();
+	GLfloat getToolAngle();
 private:
 	RoboticArm();
 
@@ -71,10 +97,19 @@ private:
 	void drawWristPart();
 	void drawToolPart();
 
+	void(RoboticArm::*setVal)(GLfloat);
+	GLfloat(RoboticArm::*getVal)(void);
+
 	GLUquadric *quadric;
 
-	GLuint textures[ROBOTIC_TEXTURES_NO];
+	GLfloat waistAngle;
+	GLfloat shoulderAngle;
+	GLfloat elbowAngle;
+	GLfloat cylinderWristAngle;
+	GLfloat sphereWristAngle;
+	GLfloat toolAngle;
 
 	const char* textureNames[ROBOTIC_TEXTURES_NO];
+	GLuint textures[ROBOTIC_TEXTURES_NO];
 };
 

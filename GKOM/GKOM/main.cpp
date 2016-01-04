@@ -52,6 +52,7 @@ void reshape(int width, int height)
 void keyboard(unsigned char key, int x, int y)
 {
 	Camera::getInstance().keyboard(key, x, y);
+	RoboticArm::getInstance().keyboard(key, x, y);
 
 	reshape(glutGet(GLUT_WINDOW_WIDTH), glutGet(GLUT_WINDOW_HEIGHT));
 }

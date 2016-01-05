@@ -15,6 +15,7 @@
 #include "Cage.h"
 #include "RoboticArm.h"
 #include "Light.h"
+#include "Fog.h"
 
 
 void display(void)
@@ -54,6 +55,7 @@ void reshape(int width, int height)
 void keyboard(unsigned char key, int x, int y)
 {
 	Light::getInstance().keyboard(key, x, y);
+	Fog::getInstance().keyboard(key, x, y);
 	Camera::getInstance().keyboard(key, x, y);
 	RoboticArm::getInstance().keyboard(key, x, y);
 
@@ -95,6 +97,7 @@ void startProgram(int argc, char** argv)
 	glEnable(GL_DEPTH_TEST);
 
 	Light::getInstance().init();
+	Fog::getInstance().init();
 	Cage::getInstance().loadTextures();
 	RoboticArm::getInstance().loadTextures();
 

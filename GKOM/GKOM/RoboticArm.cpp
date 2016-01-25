@@ -2,8 +2,8 @@
 
 
 
-RoboticArm::RoboticArm() : setVal(nullptr), getVal(nullptr), waistAngle(0.0), shoulderAngle(0.0), elbowAngle(0.0), 
-cylinderWristAngle(0.0), sphereWristAngle(0.0), toolAngle(0.0)
+RoboticArm::RoboticArm() : setVal(nullptr), getVal(nullptr), waistAngle(0.0), shoulderAngle(0.0), elbowAngle(0.0),
+cylinderWristAngle(0.0), sphereWristAngle(0.0), toolAngle(0.0), counterVal(0), manual(false)
 {
 	quadric = gluNewQuadric();
 	gluQuadricNormals(quadric, GLU_SMOOTH);
@@ -403,6 +403,7 @@ void RoboticArm::drawToolPart()
 		gluCylinder(quadric, FOURTH_TOOL_PIECE_RADIUS_MAX, FOURTH_TOOL_PIECE_RADIUS_MIN, FOURTH_TOOL_PIECE_HEIGHT, SUBDIVISIONS, SUBDIVISIONS);
 		glTranslatef(0.0, 0.0, FOURTH_TOOL_PIECE_HEIGHT);
 		gluCylinder(quadric, FOURTH_TOOL_PIECE_RADIUS_MIN, 0.0, 0.0, SUBDIVISIONS, SUBDIVISIONS);
+		glTranslatef(0.0, 0.0, -FOURTH_TOOL_PIECE_HEIGHT);
 	glPopMatrix();
 
 	glDisable(GL_TEXTURE_2D);
@@ -423,6 +424,22 @@ void RoboticArm::display()
 
 void RoboticArm::keyboard(unsigned char key, int x, int y)
 {
+	if (key == 'q')
+	{
+		manual = !manual;
+		counterVal = 0;
+		waistAngle = 0;
+		shoulderAngle = 0;
+		elbowAngle = 0;
+		cylinderWristAngle = 0;
+		sphereWristAngle = 0;
+		toolAngle = 0;
+		return;
+	}
+
+	if (!manual)
+		return;
+
 	switch (key)
 	{
 	case '1':
@@ -458,4 +475,133 @@ void RoboticArm::keyboard(unsigned char key, int x, int y)
 	default:
 		break;
 	}
+}
+
+
+void RoboticArm::setInProperPosition()
+{
+	if (++counterVal > MAX_COUNTER_VAL)
+		counterVal = 1;
+
+	if (counterVal <= 1800)
+	{
+		waistAngle = waistAngle + 0.1;
+		shoulderAngle = shoulderAngle + 0.05;
+		elbowAngle = elbowAngle - 0.0145;
+		cylinderWristAngle = cylinderWristAngle + 0.0145;
+		sphereWristAngle = sphereWristAngle + 0.025;
+		toolAngle = toolAngle - 0.033;
+	}
+	else if (counterVal <= 2200)
+	{
+		toolAngle = toolAngle + 0.12;
+	}
+	else if (counterVal <= 4000)
+	{
+		waistAngle = waistAngle - 0.1;
+		shoulderAngle = shoulderAngle - 0.05;
+		elbowAngle = elbowAngle + 0.0145;
+		cylinderWristAngle = cylinderWristAngle - 0.0145;
+		sphereWristAngle = sphereWristAngle - 0.025;
+	}
+	else if (counterVal <= 4900)
+	{
+		waistAngle = waistAngle - 0.1;
+		shoulderAngle = shoulderAngle + 0.131;
+		elbowAngle = elbowAngle - 0.182;
+		cylinderWristAngle = cylinderWristAngle + 0.053;
+		sphereWristAngle = sphereWristAngle - 0.153;
+	}
+	else if (counterVal <= 5800)
+	{
+		waistAngle = waistAngle + 0.1;
+		shoulderAngle = shoulderAngle - 0.131;
+		elbowAngle = elbowAngle + 0.182;
+		cylinderWristAngle = cylinderWristAngle - 0.053;
+		sphereWristAngle = sphereWristAngle + 0.153;
+	}
+	else if (counterVal <= 7600)
+	{
+		waistAngle = waistAngle + 0.1;
+		shoulderAngle = shoulderAngle + 0.05;
+		elbowAngle = elbowAngle - 0.0145;
+		cylinderWristAngle = cylinderWristAngle + 0.0145;
+		sphereWristAngle = sphereWristAngle + 0.025;
+	}
+	else if (counterVal <= 8000)
+	{
+		toolAngle = toolAngle - 0.12;
+	}
+	else if (counterVal <= 9800)
+	{
+		waistAngle = waistAngle - 0.1;
+		shoulderAngle = shoulderAngle - 0.05;
+		elbowAngle = elbowAngle + 0.0145;
+		cylinderWristAngle = cylinderWristAngle - 0.0145;
+		sphereWristAngle = sphereWristAngle - 0.025;
+		toolAngle = toolAngle + 0.033;
+	}
+}
+
+
+void RoboticArm::prepareMotionMatrix()
+{
+	glRotated(waistAngle, 0, 1, 0);
+	glTranslatef(0.0, -CAGE_HEIGHT / 2 + WAIST_REGULATOR_HEIGHT + WAIST_ENGINE_HEIGHT + WAIST_PIECE_HEIGHT, 0.0);
+	glTranslatef(0.0, SHOULDER_REGULATOR_HEIGHT / 4 + SHOULDER_ENGINE_HEIGHT, SHOULDER_REGULATOR_HEIGHT / 2);
+	glRotatef(shoulderAngle, 0, 0, 1);
+	glTranslatef(0.0, 0.0, -SHOULDER_REGULATOR_HEIGHT - SHOULDER_ENGINE_HEIGHT);
+	glRotatef(-45, 0, 0, 1);
+	glTranslatef(0.0, SHOULDER_PIECE_HEIGHT, ELBOW_REGULATOR_HEIGHT / 2 - ELBOW_ENGINE_HEIGHT / 2);
+	glRotatef(elbowAngle, 0, 0, 1);
+	glTranslatef(-ELBOW_PIECE_HEIGHT, 0.0, ELBOW_ENGINE_HEIGHT / 2 - FIRST_WRIST_REGULATOR_HEIGHT / 2);
+	glRotatef(cylinderWristAngle, 0, 0, 1);
+	glTranslatef(0.0, 0.0, FIRST_WRIST_REGULATOR_HEIGHT);
+	glRotatef(45, 0, 0, 1);
+	glTranslatef(0.0, 0.0, SECOND_WRIST_PIECE_HEIGHT - FIRST_WRIST_ENGINE_HEIGHT / 2 - SECOND_WRIST_PIECE_HEIGHT / 2);
+	glTranslatef(-FIRST_WRIST_PIECE_HEIGHT, 0.0, -FIRST_WRIST_REGULATOR_HEIGHT + FIRST_WRIST_PIECE_RADIUS / 2);
+	glRotatef(-sphereWristAngle, 1, 0, 0);
+	glTranslatef(-SECOND_WRIST_ENGINE_RADIUS - SECOND_WRIST_REGULATOR_RADIUS, 0, 0.0);
+	glTranslatef(-7, 0.0, 0.0);
+	glRotatef(90, 0.0, 1, 0);
+}
+
+
+void RoboticArm::prepareNoMotionMatrix()
+{
+	glRotated(180, 0, 1, 0);
+	glTranslatef(0.0, -CAGE_HEIGHT / 2 + WAIST_REGULATOR_HEIGHT + WAIST_ENGINE_HEIGHT + WAIST_PIECE_HEIGHT, 0.0);
+	glTranslatef(0.0, SHOULDER_REGULATOR_HEIGHT / 4 + SHOULDER_ENGINE_HEIGHT, SHOULDER_REGULATOR_HEIGHT / 2);
+	glRotatef(90, 0, 0, 1);
+	glTranslatef(0.0, 0.0, -SHOULDER_REGULATOR_HEIGHT - SHOULDER_ENGINE_HEIGHT);
+	glRotatef(-45, 0, 0, 1);
+	glTranslatef(0.0, SHOULDER_PIECE_HEIGHT, ELBOW_REGULATOR_HEIGHT / 2 - ELBOW_ENGINE_HEIGHT / 2);
+	glRotatef(-26, 0, 0, 1);
+	glTranslatef(-ELBOW_PIECE_HEIGHT, 0.0, ELBOW_ENGINE_HEIGHT / 2 - FIRST_WRIST_REGULATOR_HEIGHT / 2);
+	glRotatef(26, 0, 0, 1);
+	glTranslatef(0.0, 0.0, FIRST_WRIST_REGULATOR_HEIGHT);
+	glRotatef(45, 0, 0, 1);
+	glTranslatef(0.0, 0.0, SECOND_WRIST_PIECE_HEIGHT - FIRST_WRIST_ENGINE_HEIGHT / 2 - SECOND_WRIST_PIECE_HEIGHT / 2);
+	glTranslatef(-FIRST_WRIST_PIECE_HEIGHT, 0.0, -FIRST_WRIST_REGULATOR_HEIGHT + FIRST_WRIST_PIECE_RADIUS / 2);
+	glRotatef(-45, 1, 0, 0);
+	glTranslatef(-SECOND_WRIST_ENGINE_RADIUS - SECOND_WRIST_REGULATOR_RADIUS, 0, 0.0);
+	glTranslatef(-7, 0.0, 0.0);
+	glRotatef(90, 0.0, 1, 0);
+}
+
+
+void RoboticArm::prepareObjectMatrix()
+{
+	if (counterVal <= 2200)
+		prepareNoMotionMatrix();
+	else if (counterVal <= 7600)
+		prepareMotionMatrix();
+	else if (counterVal <= 9800)
+		prepareNoMotionMatrix();
+}
+
+
+bool RoboticArm::getManual()
+{
+	return manual;
 }

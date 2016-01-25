@@ -3,6 +3,7 @@
 #include "GLUT.H"
 #include <iostream>
 #include "SimpleOpenGLImageLibrary\src\SOIL.h"
+#include "Object.h"
 
 #define ROBOTIC_TEXTURES_NO 3
 
@@ -64,6 +65,9 @@
 #define FOURTH_TOOL_PIECE_HEIGHT (2.5 * SCALE)
 
 
+#define MAX_COUNTER_VAL 9800
+
+
 class RoboticArm
 {
 public:
@@ -82,12 +86,17 @@ public:
 	void setSphereWristAngle(GLfloat _sphereWristAngle);
 	void setToolAngle(GLfloat _toolAngle);
 
+	bool getManual();
+
 	GLfloat getWaistAngle();
 	GLfloat getShoulderAngle();
 	GLfloat getElbowAngle();
 	GLfloat getCylinderWristAngle();
 	GLfloat getSphereWristAngle();
 	GLfloat getToolAngle();
+
+	void setInProperPosition();
+	void prepareObjectMatrix();
 private:
 	RoboticArm();
 
@@ -96,6 +105,10 @@ private:
 	void drawElbowPart();
 	void drawWristPart();
 	void drawToolPart();
+
+
+	void prepareMotionMatrix();
+	void prepareNoMotionMatrix();
 
 	void(RoboticArm::*setVal)(GLfloat);
 	GLfloat(RoboticArm::*getVal)(void);
@@ -108,6 +121,9 @@ private:
 	GLfloat cylinderWristAngle;
 	GLfloat sphereWristAngle;
 	GLfloat toolAngle;
+
+	bool manual;
+	int counterVal;
 
 	const char* textureNames[ROBOTIC_TEXTURES_NO];
 	GLuint textures[ROBOTIC_TEXTURES_NO];

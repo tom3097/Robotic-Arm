@@ -10,10 +10,12 @@
 #define BACK_CUT_WALL 1500.0
 #define VIEWING_ANGLE 60.0
 
+
 #include "GLUT.H"
 #include "Camera.h"
 #include "Cage.h"
 #include "RoboticArm.h"
+#include "Object.h"
 #include "Light.h"
 #include "Fog.h"
 
@@ -30,7 +32,16 @@ void display(void)
 	Camera::getInstance().setView();
 	Light::getInstance().display();
 	Cage::getInstance().display();
+	if (!RoboticArm::getInstance().getManual())
+	{
+		RoboticArm::getInstance().setInProperPosition();
+	}
 	RoboticArm::getInstance().display();
+	if (!RoboticArm::getInstance().getManual())
+	{
+		RoboticArm::getInstance().prepareObjectMatrix();
+		Object::getInstance().display();
+	}
 
 	glFlush();
 	glutSwapBuffers();
@@ -100,6 +111,7 @@ void startProgram(int argc, char** argv)
 	Fog::getInstance().init();
 	Cage::getInstance().loadTextures();
 	RoboticArm::getInstance().loadTextures();
+	Object::getInstance().loadTextures();
 
 	glutMainLoop();
 }
